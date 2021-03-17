@@ -1,19 +1,220 @@
-class CalculatorOne{
+class Calculator{
     constructor(){
-
-        this.buttons = document.querySelectorAll('button')
-        this.operations = []
-        this.locale = 'pt-br'
-        // variaveis privadas
+        this.numbers = []
+        this.display = document.querySelector('#display')
         this._dateEl = document.querySelector('.date')
         this._timeEl = document.querySelector('.hour')
-        this.display = document.querySelector('.operations')
+        this.toBeginOfZero()
         this._currentDate
-        this.click()
         this.hours()
+      
+        this.begin()
     }
-    // METODO PARA HORAS E DATA
-    hours(){
+    begin(){
+        let buttons = document.querySelectorAll('button')
+        buttons.forEach(btn =>{
+            this.clicks(btn)
+        })
+    }
+
+
+    clicks(button){
+        
+        button.addEventListener('click',()=>{
+
+            this.caseNumberOrNot(button.value)
+          
+        })
+    }
+    lastOperator(){
+        
+        return this.numbers[this.numbers.length -1]
+    }
+    setNumber(value){
+         this.numbers[this.numbers.length -1] = value
+    }
+    operations(operations){
+        
+        
+        return ['+','-','/','%','*','x','.'].indexOf(operations)
+       
+    }
+    push(click){
+        this.numbers.push(click)
+        if(this.numbers.length > 3){
+         
+            this.calc();
+        this.ToshowDisplay(this.numbers)
+
+        
+                 }
+        
+    }
+    calc(){
+         let last = this.numbers.pop()
+        let res = eval(this.numbers.join(''))
+         this.numbers = [res,last]
+         return this.numbers
+    }
+    ToshowDisplay(operations){
+        this.display.innerHTML = operations
+    
+    }
+    toAdd(){
+    
+    if(this.numbers.length > 2){
+        let res = eval(this.numbers.join(''))
+         this.numbers = [res]
+
+         this.ToshowDisplay(this.numbers)
+    }
+        
+        
+        
+
+    }
+
+    verification(click){
+       
+        if(isNaN(this.lastOperator())){
+
+            if(this.operations(click) >= 0){
+            
+                this.setNumber(click)
+
+                
+            }else{
+                this.numbers.push(click)
+        this.ToshowDisplay(this.numbers)
+
+                
+            }
+           
+        }else{ 
+           
+
+            if(this.operations(click) >= 0){
+
+                this.push(click)
+            }else{
+
+                let newValue = this.lastOperator().toString() + click.toString()
+               this.setNumber(newValue)
+                      
+              
+            }
+        }  
+        this.ToshowDisplay(this.numbers.join(''))
+
+    }
+
+    caseNumberOrNot(btn){
+        switch (btn) {
+            case '1':
+                case '2':
+                    case '3':
+                        case '4':
+                            case '5':
+                                case '6':
+                                    case '7':
+                                        case '8':
+                                            case '9':
+                                                case '0':
+                                                    this.verification(parseInt(btn))
+
+                                                   
+                                                    break;
+
+                                                    case '+':
+                                                        case '-':
+                                                          
+                                                            case '*':
+                                                                this.verification(btn)
+                                                               
+
+                                                                case '/':
+                                                                    this.verification(btn)
+                                                                   break;
+                                                                   case '=':
+                                                                       this.toAdd()
+                                                                       break;
+                                                                       case 'ac':
+                                                                           this.numbers = ['']
+                                                                           this.ToshowDisplay(this.numbers)
+                                                                           this.toBeginOfZero()
+                                                                           
+                                                                           break;
+                                                                           
+                                                                           case 'c':  
+                                                                           
+                                                                              this.clear()       
+                                                                               break;
+                                                                               case '.':
+                                                                                  this.verification(btn)
+                                                                                   break;
+                                                                    default:
+                                                                    break;
+    }
+
+    }
+
+    clear(){
+        if(this.operations(this.lastOperator()) >= 0){
+
+            this.numbers.pop()
+            this.ToshowDisplay(this.numbers)
+            return
+            
+        }
+        
+         if (this.numbers.length == 3) {
+          if(this.lastOperator().length == 1){
+              this.numbers[2] = ''
+
+              if(this.operations(this.numbers[1]) >= 0){
+                 this.numbers.pop()
+                 this.ToshowDisplay(this.numbers.join(''))
+                 return
+                 
+             }
+                          
+          }
+      
+
+          let a = this.lastOperator().split('')
+             
+          
+          this.lastOperator().split('')
+              let array = []
+               array = this.lastOperator().split('')
+             array.pop()
+             this.numbers[this.numbers.length -1] = array.join('')            
+            
+           this.ToshowDisplay(this.numbers.join(''))
+          
+        
+           return
+         }
+            let string =  this.lastOperator().toString()
+                                                                         
+         
+            let aux = string.split('')
+            aux.pop()
+
+          this.setNumber(aux.join(''))
+          
+         this.ToshowDisplay(this.numbers.join(''))
+         this.toBeginOfZero()
+                
+    }
+    toBeginOfZero(){
+        if(this.numbers == ''){
+         return   this.ToshowDisplay(0)
+        }
+    }
+
+      // METODO PARA HORAS E DATA
+      hours(){
 
         this.dateTime()
            setInterval(() => {
@@ -48,166 +249,5 @@ class CalculatorOne{
     set currentDate(valor){
         this._currentDate.innerHTML = valor
     } // FIMM DOS GETS E SETS
-  
-
-    // METODO PARA FAZER OS CLICKS DOS BOTÕES
-    click(){
-        this.buttons.forEach(button => {
-           button.addEventListener('click',num=>{
-               
-            let btn = button.value
-            this.exec(btn)
-           })
-        });
-    } // FIM DA FUNÇÃO CLICK
-
-    clearAll(){
-        this.operations = ''
-        this.lastNumberToDisplay()
-
-    }
-    //METODO PARA LIMPAR O ULTIMO NUMERO DIGITADO
-    clear(){
-        this.operations.pop()
-
-    } // FIM DO CLEAR
-
-
-
-    // METODO PARA ADICIONAR NO ARRAY
-    pushOperation(value){
-        this.operations.push(value)
-        // SE O ARRAY TIVER MAIS QUE 3 INDICE ELE FAZ A SOMA
-        if(this.operations.length > 3){
-           this.calc()
-
-        }
-    } // FIM DO PUSHOPERATION
-
-
-        // METODO PARA CALCULAR
-        calc(){
-            // o last retorna o ultimo operador digitado
-            let last = this.operations.pop()
-            let result = eval(this.operations.join(''))
-
-            this.operations = [result,last]
-        
-            this.lastNumberToDisplay()
-        }
-        // METODO PARA MOSTRAR NA TELA
-        lastNumberToDisplay(){
-             let lastNumber
-
-            for (let i = this.operations.length - 1; i >= 0; i--) {
-
-                if(!this.isOperator(this.operations[i])){
-                     lastNumber = this.operations[i];
-                    
-                break;
-                }
-
-            }
-            this.display.innerHTML = lastNumber
-            // console.log(lastNumber);
-        }
-
-    // RETORNA O ULTIMO ITEM DO ARRAY
-    getLastOperation(){
-        return this.operations[this.operations.length - 1]
-    } // FIM DA METODO GETLASTOPERATION()
-
-
-    // RETORNA O ULTIMO ITEM DO ARRAY E ADICIONA O VALOR DO MOMENTO (VALUE)
-    setLastOperation(value){ 
-
-        this.operations[this.operations.length - 1] = value
-   
-   } // FIM DO METODO SETLASTOPERATION()
-   isOperator(value){
-      return (['+','-','%','x','/'].indexOf(value) > -1 )
-      
-   }
-
-   // A LÓGICA DESSA FUNÇÃO É , NA PRIMEIRA VEZ QUE CLICAR NO BUTTON O  INDICE NO ARRAY VAI RETORNAR UNDEFINED,
-   // PORQUE ELE ESTA VAZIO, NA PRIMEIRA VEZ VAI CAIR NESSE IF, NA SEGUNDA VEZ VAI CAIR NO ELSE,SE FOR NUM.
-   // ISSO PORQUE CRIEI A FUNÇÃO  DE RETORNAR O ULTIMO ITEM DO ARRAY
-    addOperation(value){
-
-// VERIFICA QUAL É O ULTIMO OPERADOR DIGITADO RETORNARA UNDEFINED,E CAIRA AQUI
-        if(isNaN(this.getLastOperation())){
-
-            // VERIFICA SE O VALOR DO INDICE DIGITADO É UM OPERADOR, 
-            //ELE ENTRA AQUI SE O VALOR DO ULTIMO FOR TAMBEM UM OPERADOR
-            if(this.isOperator(value)){
-                // O ULTIMO SENDO UM OPERADOR, ELE SUBSTITUI O ULTIMO POR O VALOR ATUAL (VALUE)
-                this.setLastOperation(value)
-                
-            }
-            else{ 
-                // SE NÃO FOR OPERADOR É UM NÚMERO OU UM PONTO
-                if(isNaN(value)){
-                    // é ponto ou igual
-
-                }else{
-
-                    // PRIMEIRO ITEM DO ARRAY
-                    this.pushOperation(value)
-                    
-                }
-                
-            }
-
-        }else{ // DA SEGUNDA VEZ O ULTIMO NÚMERO SERA INT ENÃO CAI AQUI
-
-            // SE O VALOR ATUAL FOR OPERADOR,ELE NÃO VAI CONCATENAR,VAI ADICIONAR NO PROXIMO INDÍCE
-           if(this.isOperator(value)){
-               this.pushOperation(value)
-
-           }else{
-
-            let newValue = this.getLastOperation().toString() + value.toString()
-            this.setLastOperation(newValue)
-            
-
-           }
-        }
-        this.lastNumberToDisplay()
-    }
-
-
-    // FUNÇÃO QUE TRATA OS BOTÕES E SEPARA OS NUMEROS DOS OPERADORES
-
-        exec(btn){
-            switch(btn){
-                case '1':
-                    case '2':
-                        case '3':
-                            case '4':
-                                case '5':
-                                    case '6':
-                                        case '7':
-                                            case '8':
-                                                case '9':
-                                                    case '0':
-                                                        this.addOperation(parseInt(btn))
-                                                        break;
-
-                                                        case '-':
-                                                            case '+':
-                                                                case '%':
-                                                                    case '/':
-                                                                        case 'x':
-                                                                            case '=':
-                                                                            this.addOperation(btn)
-                                                                            break;
-
-
-                                                                            case 'ac':
-                                                                                this.clearAll()
-                                                                                break
-
-            }
-
-        }
 }
+window.calc = new Calculator()

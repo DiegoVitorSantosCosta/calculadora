@@ -1,5 +1,5 @@
 :root {
-    --primary-color: #0c2835;
+    --primary-color: #000000;
     --secondary-color: #008B8B;
 }
 
@@ -30,21 +30,40 @@ form {
 }
 
 .display {
-    width: 234px;
+    width: 96%;
     height: 90px;
-    padding-right: 6px;
+    padding-right: 0;
     text-align: right;
-
     font-size: 20px;
     color: white;
-    margin: 5px;
+    margin: 4px auto;
     outline: none;
-    
+    position: relative;
     border-radius: 8px;
     border: 1px solid var(--secondary-color);
     background-color: var(--primary-color);
 }
 
+.display .aux p {
+    color: red;
+    display: inline-block;
+    margin: 0 0 0 15px;
+    font-size: 15px;
+}
+.operations{
+    margin: 0;
+    position: absolute;
+    width: 100%;
+    bottom: 3;
+    right: 5;
+    font-size: 33px;
+}
+.aux{
+    text-align: left;
+}
+.keyBoard{
+    margin: auto;
+}
 .operator, .number {
 	appearance: none;
 	-webkit-appearance: none;
@@ -70,4 +89,7 @@ form {
 .operator:hover, .number:hover {
     cursor: pointer;
     background-color: var(--secondary-color);
+}
+address{
+    color: white;
 }

@@ -1,48 +1,59 @@
 <html>
   <head>
-    <title>calculadora</title>
+    <title>Calculator</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="calc.css" />
 
   </head>
   <body>
     <div class="main">
-        <form name="form">
-            <input class="display" id="display" value="0" disabled>
-        </form>
-      <table>
+        
+        <div class="display">
+          <div class="aux">
+            <p class="hour"></p>
+          <p class="date"></p>
+          </div>
+          
+          <div class="op">
+            <p class="operations"></p>
+          </div>
+          
+        </div>
+      <table class="keyBoard">
         <tr>
-          <td><input type="button" class="operator" value="c" id="clean"></td>
-          <td><input type="button" class="operator" value="<"></td>
-          <td><input type="button" class="operator" value="x"></td>
-          <td><input type="button" class="operator" value="/"></td>
+          <td><button  class="operator" value="c" id="clean">c</button></td>
+          <td><button  class="operator" value="ac">ac</button></td>
+          <td><button  class="operator" value="x">x</button></td>
+          <td><button  class="operator" value="/">/</button></td>
         </tr>
         <tr>
-          <td><input type="button" class="number" value="7"></td>
-          <td><input type="button" class="number" value="8"></td>
-          <td><input type="button" class="number" value="9"></td>
-          <td><input type="button" class="operator" value="-"></td>
+          <td><button  class="number" value="7">7</button></td>
+          <td><button  class="number" value="8">8</button></td>
+          <td><button  class="number" value="9">9</button></td>
+          <td><button  class="operator" value="-">-</button></td>
         </tr>
         <tr>
-          <td><input type="button" class="number" value="4"></td>
-          <td><input type="button" class="number" value="5"></td>
-          <td><input type="button" class="number" value="6"></td>
-          <td><input type="button" class="operator" value="+"></td>
+          <td><button  class="number" value="4">4</button></td>
+          <td><button  class="number" value="5">5</button></td>
+          <td><button  class="number" value="6">6</button></td>
+          <td><button  class="operator" value="+">+</button></td>
         </tr>
         <tr>
-          <td><input type="button" class="number" value="1"></td>
-          <td><input type="button" class="number" value="2"></td>
-          <td><input type="button" class="number" value="3"></td>
-          <td rowspan="2"><input type="button" class="operator" value="=" style="height: 110px;" ></td>
+          <td><button  class="number" value="1">1</button></td>
+           <td><button  class="number" value="2">2</button></td>
+          <td><button  class="number" value="3">3</button></td>
+          <td rowspan="2"><button type="button" class="operator" value="=" style="height: 110px;" >=</button></td>
         </tr>
         <tr>
-          <td colspan="2"><input type="button" class="number" value="0" style="width: 108px;" ></td>
-          <td><input type="button" class="operator" value="." ></td>
+          <td colspan="2"><button type="button" class="number" value="0" style="width: 108px;" >0</button></td>
+          <td><button  class="operator" value="." >.</button></td>
         </tr>
       </table>
     </div>
-    
-    <script src="/js/calc.js"></script>
+    <script src="calc.js"></script>
+    <script src="controler/controler.js"></script>
 
+    <address title="call me 031 9 97358907 ">Developher Diego Vitor ;)</address>
   </body>
 </html>
+ 

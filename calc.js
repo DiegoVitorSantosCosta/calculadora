@@ -4,13 +4,17 @@ class Calculator{
         this.display = document.querySelector('#display')
         this._dateEl = document.querySelector('.date')
         this._timeEl = document.querySelector('.hour')
-        this.toBeginOfZero()
         this._currentDate
+        this.toBeginOfZero()
         this.hours()
+        this.boll = false
+        
       
         this.begin()
     }
     begin(){
+     
+        
         let buttons = document.querySelectorAll('button')
         buttons.forEach(btn =>{
             this.clicks(btn)
@@ -20,8 +24,40 @@ class Calculator{
 
     clicks(button){
         
+        
         button.addEventListener('click',()=>{
 
+               
+            let a = this.numbers.toString()
+
+            
+            // while (a.split('').length >= 10) {
+            //     if(this.operations(this.lastOperator()) >= 0){
+            //         break
+            //     }
+
+            //     if(['c','ac','+','-','/','*','='].indexOf(button.value) >= 0){
+                    
+                   
+                               
+            //         break
+            //     }
+                
+            //     return
+                
+            // }
+                
+            //     if(a.split('').length >= 10){
+            //     alert('Exedeu os limites dos caracteres permitidos.')
+                  
+            //     return
+            
+            // }
+            
+                  
+          
+           
+           
             this.caseNumberOrNot(button.value)
           
         })
@@ -36,7 +72,7 @@ class Calculator{
     operations(operations){
         
         
-        return ['+','-','/','%','*','x','.'].indexOf(operations)
+        return ['+','-','/','%','*','x'].indexOf(operations)
        
     }
     push(click){
@@ -63,15 +99,23 @@ class Calculator{
     toAdd(){
     
     if(this.numbers.length > 2){
-        let res = eval(this.numbers.join(''))
+        try {
+             let res = eval(this.numbers.join(''))
          this.numbers = [res]
 
          this.ToshowDisplay(this.numbers)
+        } catch (error) {
+            this.ToshowDisplay('error')
+            this.numbers = ''
+            return
+            
+        }
+        
+       
     }
         
         
-        
-
+    
     }
 
     verification(click){
@@ -105,6 +149,8 @@ class Calculator{
             }
         }  
         this.ToshowDisplay(this.numbers.join(''))
+       
+        
 
     }
 
@@ -121,7 +167,6 @@ class Calculator{
                                             case '9':
                                                 case '0':
                                                     this.verification(parseInt(btn))
-
                                                    
                                                     break;
 
@@ -129,8 +174,6 @@ class Calculator{
                                                         case '-':
                                                           
                                                             case '*':
-                                                                this.verification(btn)
-                                                               
 
                                                                 case '/':
                                                                     this.verification(btn)
@@ -138,6 +181,7 @@ class Calculator{
                                                                    case '=':
                                                                        this.toAdd()
                                                                        break;
+
                                                                        case 'ac':
                                                                            this.numbers = ['']
                                                                            this.ToshowDisplay(this.numbers)
@@ -146,8 +190,9 @@ class Calculator{
                                                                            break;
                                                                            
                                                                            case 'c':  
+                                                                         
+                                                                               this.clear()  
                                                                            
-                                                                              this.clear()       
                                                                                break;
                                                                                case '.':
                                                                                   this.verification(btn)
@@ -159,49 +204,18 @@ class Calculator{
     }
 
     clear(){
-        if(this.operations(this.lastOperator()) >= 0){
 
+        if( this.lastOperator() == '' && this.numbers.toString().split('').length >= 1){
             this.numbers.pop()
-            this.ToshowDisplay(this.numbers)
-            return
-            
+            this.ToshowDisplay(this.numbers.join(''))
         }
-        
-         if (this.numbers.length == 3) {
-          if(this.lastOperator().length == 1){
-              this.numbers[2] = ''
-
-              if(this.operations(this.numbers[1]) >= 0){
-                 this.numbers.pop()
-                 this.ToshowDisplay(this.numbers.join(''))
-                 return
-                 
-             }
-                          
-          }
+       
       
+        let aux =  this.lastOperator().toString().split('')
+                                                                        
+        aux.pop()
 
-          let a = this.lastOperator().split('')
-             
-          
-          this.lastOperator().split('')
-              let array = []
-               array = this.lastOperator().split('')
-             array.pop()
-             this.numbers[this.numbers.length -1] = array.join('')            
-            
-           this.ToshowDisplay(this.numbers.join(''))
-          
-        
-           return
-         }
-            let string =  this.lastOperator().toString()
-                                                                         
-         
-            let aux = string.split('')
-            aux.pop()
-
-          this.setNumber(aux.join(''))
+        this.setNumber(aux.join(''))
           
          this.ToshowDisplay(this.numbers.join(''))
          this.toBeginOfZero()
@@ -225,10 +239,8 @@ class Calculator{
     dateTime(){
         return this.date = this.currentDate.toLocaleDateString(this.locale),
         this.time = this.currentDate.toLocaleTimeString(this.locale)
-    } // dim de metodos para horas e datas
+    } // fim de metodos para horas e datas
 
-
-    //get e set , mudam as variaveis privadas sem eu acessalas diretamente
     get date (){
         return this._dateEl.innerHTML
    }
@@ -248,6 +260,6 @@ class Calculator{
     }
     set currentDate(valor){
         this._currentDate.innerHTML = valor
-    } // FIMM DOS GETS E SETS
+    }
 }
 window.calc = new Calculator()
